@@ -4,7 +4,7 @@ TODO: this is just a basic schema for branches. Some fields
 are missing.
 """
 
-import schema_orm as orm
+from . import schema_orm as orm
 
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey

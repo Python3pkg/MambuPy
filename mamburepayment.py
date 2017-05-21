@@ -36,8 +36,8 @@ behaviours are obsolete here
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getrepaymentsurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getrepaymentsurl
 
 
 mod_urlfunc = getrepaymentsurl

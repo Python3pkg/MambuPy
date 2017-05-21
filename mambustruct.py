@@ -27,7 +27,7 @@ REST API. It's a more abstract thing in fact. Also may refer to entities
 on a relational database but the term table is preferred in this case.
 """
 
-from mambuutil import MambuCommError, MambuError, OUT_OF_BOUNDS_PAGINATION_LIMIT_VALUE, iriToUri, encoded_dict
+from .mambuutil import MambuCommError, MambuError, OUT_OF_BOUNDS_PAGINATION_LIMIT_VALUE, iriToUri, encoded_dict
 
 import requests
 import json
@@ -95,7 +95,7 @@ class MambuStructIterator:
         self.wrapped = wrapped
         self.offset = 0
 
-    def next(self):
+    def __next__(self):
         if self.offset >= len(self.wrapped):
             raise StopIteration
         else:
@@ -142,7 +142,7 @@ class MambuStruct(object):
         try:
             it = iter(data)
         except TypeError as terr:
-            return unicode(data)
+            return str(data)
         if type(it) == type(iter([])):
             l = []
             for e in it:
@@ -154,7 +154,7 @@ class MambuStruct(object):
                 d[k] = MambuStruct.serializeFields(data[k])
             return d
         # elif ... tuples? sets?
-        return unicode(data)
+        return str(data)
 
     def __getitem__(self, key):
         """Dict-like key query"""
@@ -179,7 +179,7 @@ class MambuStruct(object):
         except AttributeError:
             # try to read the attrs property
             attrs = object.__getattribute__(self,"attrs")
-            if type(attrs) == list or not attrs.has_key(name):
+            if type(attrs) == list or name not in attrs:
                 # magic won't happen when not a dict-like MambuStruct or
                 # when attrs has not the 'name' key (this last one means
                 # that if 'name' is not a property of the object too,
@@ -253,7 +253,7 @@ class MambuStruct(object):
         """
         if isinstance(other, MambuStruct):
             try:
-                if not other.attrs.has_key('encodedKey') or not self.attrs.has_key('encodedKey'):
+                if 'encodedKey' not in other.attrs or 'encodedKey' not in self.attrs:
                     return NotImplemented
             except AttributeError:
                 return NotImplemented
@@ -262,21 +262,21 @@ class MambuStruct(object):
     def has_key(self, key):
         """Dict-like behaviour"""
         try:
-            return self.attrs.has_key(key)
+            return key in self.attrs
         except AttributeError:
             raise NotImplementedError
 
     def keys(self):
         """Dict-like behaviour"""
         try:
-            return self.attrs.keys()
+            return list(self.attrs.keys())
         except AttributeError:
             raise NotImplementedError
 
     def items(self):
         """Dict-like behaviour"""
         try:
-            return self.attrs.items()
+            return list(self.attrs.items())
         except AttributeError:
             raise NotImplementedError
 
@@ -332,7 +332,7 @@ class MambuStruct(object):
         except Exception:
             pass
         try:
-            for propname,propval in kwargs['properties'].iteritems():
+            for propname,propval in kwargs['properties'].items():
                 try:
                     setattr(self,propname,propval)
                 except Exception:
@@ -596,8 +596,8 @@ class MambuStruct(object):
                     window = False
 
         try:
-            if jsresp.has_key(u'returnCode') and jsresp.has_key(u'returnStatus'):
-                raise MambuError(jsresp[u'returnStatus'])
+            if 'returnCode' in jsresp and 'returnStatus' in jsresp:
+                raise MambuError(jsresp['returnStatus'])
         except AttributeError:
             pass
 
@@ -633,7 +633,7 @@ class MambuStruct(object):
         """
         try:
             try:
-                if self.has_key(self.customFieldName):
+                if self.customFieldName in self:
                     self[self.customFieldName] = [ c for c in self[self.customFieldName] if c['customField']['state']!="DEACTIVATED" ]
                     for custom in self[self.customFieldName]:
                         field_name = custom['customField']['name']
@@ -649,7 +649,7 @@ class MambuStruct(object):
             except (AttributeError, TypeError):
                 pass
 
-            for k,v in self.items():
+            for k,v in list(self.items()):
                 try:
                     self[k] = v.strip()
                 except Exception:
@@ -778,10 +778,10 @@ class MambuStruct(object):
             raise err
 
         if datatype == "USER_LINK":
-            from mambuuser import MambuUser
+            from .mambuuser import MambuUser
             self[customfield] = MambuUser(entid=customFieldValue, *args, **kwargs)
         elif datatype == "CLIENT_LINK":
-            from mambuclient import MambuClient
+            from .mambuclient import MambuClient
             self[customfield] = MambuClient(entid=customFieldValue, *args, **kwargs)
         else:
             self[customfield] = customFieldValue

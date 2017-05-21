@@ -1,7 +1,7 @@
 """Schema tables for Mambu Custom fields.
 """
 
-import schema_orm as orm
+from . import schema_orm as orm
 
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table, ForeignKey
@@ -81,7 +81,7 @@ class CustomFieldValue(Base):
 
     @property
     def linkedclient(self):
-        from schema_clients import Client
+        from .schema_clients import Client
         try:
             if self.customfield.datatype == 'CLIENT_LINK':
                 return session.query(Client).filter(Client.encodedkey==self.linkedentitykeyvalue).one()
@@ -92,7 +92,7 @@ class CustomFieldValue(Base):
 
     @property
     def linkedgroup(self):
-        from schema_groups import Group
+        from .schema_groups import Group
         try:
             if self.customfield.datatype == 'GROUP_LINK':
                 return session.query(Group).filter(Group.encodedkey==self.linkedentitykeyvalue).one()
@@ -103,7 +103,7 @@ class CustomFieldValue(Base):
 
     @property
     def linkeduser(self):
-        from schema_users import User
+        from .schema_users import User
         try:
             if self.customfield.datatype == 'USER_LINK':
                 return session.query(User).filter(User.encodedkey==self.linkedentitykeyvalue).one()

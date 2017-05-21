@@ -38,8 +38,8 @@ behaviours are obsolete here
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getbranchesurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getbranchesurl
 
 
 mod_urlfunc = getbranchesurl
@@ -67,7 +67,7 @@ class MambuBranch(MambuStruct):
         counter singleton holds true information about how many requests
         were done to Mambu, in fact this return value may be obsolete
         """
-        from mambuuser import MambuUsers
+        from .mambuuser import MambuUsers
         usrs = [ us for us in MambuUsers(branchId=self['id'], *args, **kwargs) if us['userState'] == "ACTIVE" ]
         self['users'] = usrs
 

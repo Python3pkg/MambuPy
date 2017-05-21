@@ -1,7 +1,7 @@
 """Schema tables for Mambu Addresses.
 """
 
-import schema_orm as orm
+from . import schema_orm as orm
 
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey

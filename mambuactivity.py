@@ -67,8 +67,8 @@ Example response from Mambu for activities (please omit comment lines beginning 
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getactivitiesurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getactivitiesurl
 
 
 mod_urlfunc = getactivitiesurl

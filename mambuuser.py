@@ -45,8 +45,8 @@ behaviours are obsolete here
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getuserurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getuserurl
 
 
 mod_urlfunc = getuserurl
@@ -91,7 +91,7 @@ class MambuUser(MambuStruct):
 
         Returns the number of requests done to Mambu.
         """
-        from mambugroup import MambuGroups
+        from .mambugroup import MambuGroups
 
         groups = MambuGroups(creditOfficerUsername=self['username'], *args, **kwargs)
         self['groups'] = groups

@@ -62,8 +62,8 @@ Example response from Mambu for centres:
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getcentresurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getcentresurl
 
 
 mod_urlfunc = getcentresurl

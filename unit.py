@@ -1,7 +1,7 @@
 import mock
 import unittest
 
-import mambustruct
+from . import mambustruct
 
 class MambuStructTests(unittest.TestCase):
     def setUp(self):
@@ -60,7 +60,7 @@ class MambuStructTests(unittest.TestCase):
         self.assertEqual(s['attr1'],1)
         s['attr3'] = "hello world!"
         self.assertEqual(s.attrs['attr3'], "hello world!")
-        self.assertTrue(s.has_key('attr2'))
+        self.assertTrue('attr2' in s)
         self.assertListEqual(sorted(s.items()), [('attr1',1),
                                                  ('attr2',3.141592),
                                                  ('attr3',"hello world!")])
@@ -73,12 +73,12 @@ if __name__ == '__main__':
     tl = unittest.TestLoader()
     suites_list = []
     for test_class in test_classes_to_run:
-        print "%s testcases:" % test_class.__name__
+        print("%s testcases:" % test_class.__name__)
         suite = tl.loadTestsFromTestCase(test_class)
         testcases = tl.getTestCaseNames(test_class)
         for t in testcases:
-            print " ", t
-        print ""
+            print(" ", t)
+        print("")
         suites_list.append(suite)
     big_suite = unittest.TestSuite(suites_list)
     runner = unittest.TextTestRunner(verbosity=2)

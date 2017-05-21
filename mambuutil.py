@@ -7,16 +7,16 @@ Secutiry WARNING: Imports the configurations from mambuconfig. It surely
 is a bad idea. Got to improve this!
 """
 
-from mambuconfig import apiurl
-from mambuconfig import apiuser
-from mambuconfig import apipwd
+from .mambuconfig import apiurl
+from .mambuconfig import apiuser
+from .mambuconfig import apipwd
 
-from mambuconfig import dbname
-from mambuconfig import dbuser
-from mambuconfig import dbpwd
-from mambuconfig import dbhost
-from mambuconfig import dbport
-from mambuconfig import dbeng
+from .mambuconfig import dbname
+from .mambuconfig import dbuser
+from .mambuconfig import dbpwd
+from .mambuconfig import dbhost
+from .mambuconfig import dbport
+from .mambuconfig import dbeng
 
 
 API_RETURN_CODES = {
@@ -560,7 +560,7 @@ def getactivitiesurl(dummyId='', *args, **kwargs):
 ### No more urlfuncs from here ###
 
 ### More utility functions follow ###
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 class MLStripper(HTMLParser):
     """Aux class for stripping HTML tags.
 
@@ -626,9 +626,9 @@ def iriToUri(iri):
     MambuUser object with them, I get a BIG problem because of the
     unicode chars there. Using this I solved the problem.
     """
-    import urlparse
-    parts= urlparse.urlparse(iri)
-    return urlparse.urlunparse(
+    import urllib.parse
+    parts= urllib.parse.urlparse(iri)
+    return urllib.parse.urlunparse(
         part.encode('idna') if parti==1 else urlEncodeNonAscii(part.encode('utf-8'))
         for parti, part in enumerate(parts)
     )
@@ -640,8 +640,8 @@ def encoded_dict(in_dict):
     Useful for POSTing requests on the 'data' parameter of urlencode.
     """
     out_dict = {}
-    for k, v in in_dict.iteritems():
-        if isinstance(v, unicode):
+    for k, v in in_dict.items():
+        if isinstance(v, str):
             v = v.encode('utf8')
         elif isinstance(v, str):
             # Must be encoded in UTF-8
@@ -684,7 +684,8 @@ def backup_db(callback, bool_func, output_fname, *args, **kwargs):
     """
     from datetime import datetime
     from time import sleep
-    from urllib import urlopen, urlencode
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
 
     try:
         verbose = kwargs['verbose']

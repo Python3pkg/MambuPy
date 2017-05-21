@@ -4,10 +4,10 @@ TODO: this are just very basic schemas for clients. A lot of fields
 are missing.
 """
 
-import schema_orm as orm
-from schema_groups import Group
-from schema_branches import Branch
-from schema_addresses import Address
+from . import schema_orm as orm
+from .schema_groups import Group
+from .schema_branches import Branch
+from .schema_addresses import Address
 
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table, ForeignKey

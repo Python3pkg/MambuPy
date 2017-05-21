@@ -99,8 +99,8 @@ behaviours are obsolete here
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getclienturl, strip_consecutive_repeated_char as scrc
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getclienturl, strip_consecutive_repeated_char as scrc
 
 
 mod_urlfunc = getclienturl
@@ -151,7 +151,7 @@ class MambuClient(MambuStruct):
         super(MambuClient,self).preprocess()
 
         try:
-            for k,v in self['client'].items():
+            for k,v in list(self['client'].items()):
                 self[k] = v
             del(self.attrs['client'])
         except Exception as e:
@@ -174,7 +174,7 @@ class MambuClient(MambuStruct):
 
         self['address'] = {}
         try:
-            for name,item in self['addresses'][0].items():
+            for name,item in list(self['addresses'][0].items()):
                 try:
                     self['addresses'][0][name] = item.strip()
                     self['address'][name] = item.strip()
@@ -201,11 +201,11 @@ class MambuClient(MambuStruct):
         preprocessing.
         """
         try:
-            for name, item in self['addresses'][0].items():
+            for name, item in list(self['addresses'][0].items()):
                 try:
                     if name == "indexInList": continue
-                    self['addresses'][0][name] = unicode(self['addresses'][0][name])
-                    self['address'][name] = unicode(self['address'][name])
+                    self['addresses'][0][name] = str(self['addresses'][0][name])
+                    self['address'][name] = str(self['address'][name])
                 except AttributeError:
                     pass
         except (KeyError, IndexError):
@@ -221,7 +221,7 @@ class MambuClient(MambuStruct):
 
         Returns the number of requests done to Mambu.
         """
-        from mambugroup import MambuGroup
+        from .mambugroup import MambuGroup
 
         requests = 0
         groups = []

@@ -4,10 +4,10 @@ TODO: this are just very basic schemas for groups. A some fields
 are missing.
 """
 
-import schema_orm as orm
-from schema_branches import Branch
-from schema_users import User
-import schema_clients
+from . import schema_orm as orm
+from .schema_branches import Branch
+from .schema_users import User
+from . import schema_clients
 
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey

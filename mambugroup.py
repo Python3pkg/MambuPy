@@ -122,8 +122,8 @@ behaviours are obsolete here
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getgroupurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getgroupurl
 
 
 mod_urlfunc = getgroupurl
@@ -162,7 +162,7 @@ class MambuGroup(MambuStruct):
         super(MambuGroup,self).preprocess()
 
         try:
-            for k,v in self['theGroup'].items():
+            for k,v in list(self['theGroup'].items()):
                 self[k] = v
             del(self.attrs['theGroup'])
         except Exception as e:
@@ -188,10 +188,10 @@ class MambuGroup(MambuStruct):
 
         Returns the number of requests done to Mambu.
         """
-        from mambuclient import MambuClient
+        from .mambuclient import MambuClient
 
         requests = 0
-        if kwargs.has_key('fullDetails'):
+        if 'fullDetails' in kwargs:
             fullDetails = kwargs['fullDetails']
             kwargs.pop('fullDetails')
         else:
@@ -224,7 +224,7 @@ class MambuGroup(MambuStruct):
                 return activity['activity']['timestamp']
             except KeyError as kerr:
                 return None
-        from mambuactivity import MambuActivities
+        from .mambuactivity import MambuActivities
 
         activities = MambuActivities(groupId=self['encodedKey'], *args, **kwargs)
         activities.attrs = sorted(activities.attrs, key=activityDate)

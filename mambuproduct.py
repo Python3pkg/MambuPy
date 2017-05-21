@@ -105,8 +105,8 @@ behaviours are obsolete here
 """
 
 
-from mambustruct import MambuStruct, MambuStructIterator
-from mambuutil import getproductsurl
+from .mambustruct import MambuStruct, MambuStructIterator
+from .mambuutil import getproductsurl
 
 
 mod_urlfunc = getproductsurl
